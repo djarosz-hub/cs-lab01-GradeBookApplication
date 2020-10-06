@@ -5,18 +5,48 @@ using System.Text;
 
 namespace GradeBook.GradeBooks
 {
-    class RankedGradeBook : BaseGradeBook
+    public class RankedGradeBook : BaseGradeBook
     {
         public RankedGradeBook(string name, bool isW) : base(name, isW)
         {
             Type = GradeBookType.Ranked;
         }
         // NOT DONE
-        public override char GetLetterGrade(double grade)
+        public override char GetLetterGrade(double mainGrade)
         {
-            int studentsCount = Students.Count;
+            double studentsCount = Students.Count;
             if (studentsCount < 5) throw new InvalidOperationException("Theres less than 5 students in class");
-            return 'A';
+            double twP = studentsCount / 5d ;
+            double betterStudentsCount = 0d;
+            //int weakerStudentsCount = 0;
+            //double avgOfClass = 0;
+            foreach (Student student in Students)
+            {
+                if (student.AverageGrade > mainGrade)
+                {
+                    betterStudentsCount++;
+                    //continue;
+                }
+                //if(student.AverageGrade < mainGrade)
+                //{
+                //    weakerStudentsCount++;
+                //    continue;
+                //}
+            }
+
+            if (betterStudentsCount < twP)
+                return 'A';
+            else if (betterStudentsCount < 2d * twP)
+                return 'B';
+            else if (betterStudentsCount < 3d * twP)
+                return 'C';
+            else if (betterStudentsCount < 4d * twP)
+                return 'D';
+            else
+                return 'F';
+
+
+
         }
         public override void CalculateStatistics()
         {
