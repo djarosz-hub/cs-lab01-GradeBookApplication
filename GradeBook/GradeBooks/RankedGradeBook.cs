@@ -16,7 +16,7 @@ namespace GradeBook.GradeBooks
         {
             double studentsCount = Students.Count;
             if (studentsCount < 5) throw new InvalidOperationException("Theres less than 5 students in class");
-            double twP = studentsCount / 5d ;
+            double twP = studentsCount * 0.2d ;
             double betterStudentsCount = 0d;
             //int weakerStudentsCount = 0;
             //double avgOfClass = 0;
@@ -34,7 +34,7 @@ namespace GradeBook.GradeBooks
                 //}
             }
 
-            if (betterStudentsCount < twP)
+            if (betterStudentsCount < twP )
                 return 'A';
             else if (betterStudentsCount < 2d * twP)
                 return 'B';

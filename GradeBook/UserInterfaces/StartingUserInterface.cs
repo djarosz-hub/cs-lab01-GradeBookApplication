@@ -51,6 +51,11 @@ namespace GradeBook.UserInterfaces
                 Console.WriteLine("Command not valid, create requires a name, type of gradebook, if it's weighted (true / false).");
                 return;
             }
+            if(string.IsNullOrEmpty(parts[3]) || string.IsNullOrWhiteSpace(parts[3]))
+            {
+                Console.WriteLine("Command not valid, create requires a name, type of gradebook, if it's weighted (true / false).");
+                return;
+            }
             bool isWeighted = bool.Parse(parts[3].ToString());
 
             if (parts[2].ToLower() == "standard" && !(string.IsNullOrEmpty(parts[1])))
