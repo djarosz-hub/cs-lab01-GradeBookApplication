@@ -1,6 +1,7 @@
 ﻿using GradeBook.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GradeBook.GradeBooks
@@ -11,36 +12,22 @@ namespace GradeBook.GradeBooks
         {
             Type = GradeBookType.Ranked;
         }
-        // NOT DONE
         public override char GetLetterGrade(double mainGrade)
         {
-            double studentsCount = Students.Count;
+            int studentsCount = Students.Count;
             if (studentsCount < 5) throw new InvalidOperationException("Theres less than 5 students in class");
-            double twP = studentsCount * 0.2d ;
-            double betterStudentsCount = 0d;
-            //int weakerStudentsCount = 0;
-            //double avgOfClass = 0;
-            foreach (Student student in Students)
-            {
-                if (student.AverageGrade > mainGrade)
-                {
-                    betterStudentsCount++;
-                    //continue;
-                }
-                //if(student.AverageGrade < mainGrade)
-                //{
-                //    weakerStudentsCount++;
-                //    continue;
-                //}
-            }
+            var twentyPercentBestStudents = (int)Math.Ceiling(studentsCount * 0.2d);
 
-            if (betterStudentsCount < twP )
+            List<double> grades = Students.OrderByDescending(student => student.AverageGrade).Select(student => student.AverageGrade).ToList();
+
+
+            if (grades[(twentyPercentBestStudents - 1)] <= mainGrade)
                 return 'A';
-            else if (betterStudentsCount < 2d * twP)
+            else if (grades[(twentyPercentBestStudents * 2) - 1] <= mainGrade)
                 return 'B';
-            else if (betterStudentsCount < 3d * twP)
+            else if (grades[(twentyPercentBestStudents * 3) - 1] <= mainGrade)
                 return 'C';
-            else if (betterStudentsCount < 4d * twP)
+            else if (grades[(twentyPercentBestStudents * 4) - 1] <= mainGrade)
                 return 'D';
             else
                 return 'F';
